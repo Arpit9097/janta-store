@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store - Janta Store</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/store.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1><i class="fas fa-store"></i> Janta Store</h1>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#stores" class="nav-link">Stores</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <div class="search-box">
+                    <input type="text" placeholder="Search products..." id="store-search">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+                <div class="user-actions">
+                    <a href="login.html" class="btn-login">Login</a>
+                    <a href="dashboard.html" class="btn-dashboard">Dashboard</a>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Store Content -->
+    <div class="store-container">
+        <!-- Store Header -->
+        <div class="store-header">
+            <div class="store-info">
+                <div class="store-icon" id="store-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="store-details">
+                    <h1 id="store-title">Store</h1>
+                    <p id="store-description">Browse our amazing products</p>
+                </div>
+            </div>
+            <div class="store-stats">
+                <div class="stat">
+                    <span class="stat-number" id="product-count">0</span>
+                    <span class="stat-label">Products</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="avg-rating">4.5</span>
+                    <span class="stat-label">Avg Rating</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Sort -->
+        <div class="store-controls">
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label for="price-filter">Price Range:</label>
+                    <select id="price-filter">
+                        <option value="">All Prices</option>
+                        <option value="0-50">$0 - $50</option>
+                        <option value="50-100">$50 - $100</option>
+                        <option value="100-200">$100 - $200</option>
+                        <option value="200+">$200+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="rating-filter">Rating:</label>
+                    <select id="rating-filter">
+                        <option value="">All Ratings</option>
+                        <option value="4">4+ Stars</option>
+                        <option value="3">3+ Stars</option>
+                        <option value="2">2+ Stars</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-by">Sort By:</label>
+                    <select id="sort-by">
+                        <option value="name">Name A-Z</option>
+                        <option value="name-desc">Name Z-A</option>
+                        <option value="price">Price Low to High</option>
+                        <option value="price-desc">Price High to Low</option>
+                        <option value="rating">Rating High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+            </div>
+            <div class="view-controls">
+                <button class="view-btn active" data-view="grid">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button class="view-btn" data-view="list">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-container">
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+            <div class="products-list" id="products-list" style="display: none;">
+                <!-- List view products will be loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-container">
+            <button class="btn-load-more" id="load-more-btn" style="display: none;">
+                Load More Products
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Quick View Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-product-title">Product Title</h3>
+                <button class="modal-close" id="close-product-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="product-quick-view">
+                    <div class="product-image">
+                        <img id="modal-product-image" src="" alt="Product">
+                    </div>
+                    <div class="product-details">
+                        <div class="product-rating">
+                            <span class="stars" id="modal-product-stars"></span>
+                            <span id="modal-product-rating"></span>
+                        </div>
+                        <div class="product-price" id="modal-product-price"></div>
+                        <div class="product-description" id="modal-product-description">
+                            This is a high-quality product that offers excellent value for money.
+                        </div>
+                        <div class="product-actions">
+                            <div class="quantity-selector">
+                                <label for="quantity">Quantity:</label>
+                                <div class="quantity-controls">
+                                    <button type="button" id="decrease-quantity">-</button>
+                                    <input type="number" id="quantity" value="1" min="1" max="99">
+                                    <button type="button" id="increase-quantity">+</button>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn-add-to-cart" id="modal-add-to-cart">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Add to Cart
+                                </button>
+                                <button class="btn-wishlist" id="modal-add-to-wishlist">
+                                    <i class="fas fa-heart"></i>
+                                    Add to Wishlist
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Janta Store</h3>
+                    <p>Your one-stop destination for all your shopping needs.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html#stores">Stores</a></li>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul>
+                        <li><a href="store.html?category=electronics">Electronics</a></li>
+                        <li><a href="store.html?category=fashion">Fashion</a></li>
+                        <li><a href="store.html?category=home">Home & Living</a></li>
+                        <li><a href="store.html?category=books">Books</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get updates on new products and offers.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Janta Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/store.js"></script>
+    <script>
+        // Get category from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        
+        // Map old category names to new ones for backward compatibility
+        const categoryMap = {
+            'electronics': 'jewellery',
+            'fashion': 'vastralaya', 
+            'home': 'rediment',
+            'books': 'books',
+            'sports': 'sports',
+            'beauty': 'beauty'
+        };
+        
+        // Get the correct category
+        const currentCategory = categoryMap[category] || category;
+        
+        // Update page title and header based on category
+        const categoryNames = {
+            'jewellery': 'Janta Jewellery',
+            'vastralaya': 'Janta Vastralaya',
+            'rediment': 'Janta Rediment',
+            'books': 'Janta Books',
+            'sports': 'Janta Sports',
+            'beauty': 'Janta Beauty'
+        };
+        
+        const categoryDescriptions = {
+            'jewellery': 'Exquisite jewellery and precious stones',
+            'vastralaya': 'Traditional and modern clothing',
+            'rediment': 'Home decor and lifestyle products',
+            'books': 'Books, magazines, and educational materials',
+            'sports': 'Sports equipment and fitness gear',
+            'beauty': 'Cosmetics and health products'
+        };
+        
+        document.title = categoryNames[currentCategory] + ' - Janta Store';
+        document.getElementById('store-title').textContent = categoryNames[currentCategory];
+        document.getElementById('store-description').textContent = categoryDescriptions[currentCategory];
+    </script>
+</body>
+</html> 
